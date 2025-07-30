@@ -9,8 +9,8 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default: "bg-[hsl(var(--accent))] text-white shadow hover:bg-blue-800",
-        outline: "border border-gray-300 dark:border-gray-700 bg-white/50 dark:bg-card text-gray-800 dark:text-gray-100 hover:bg-blue-50 dark:hover:bg-blue-900 transition",
-        ghost: "bg-transparent hover:bg-blue-50 dark:hover:bg-blue-900 text-gray-700 dark:text-gray-100",
+        outline: "border border-gray-300 dark:border-gray-700 bg-white/50 dark:bg-card text-gray-800 dark:text-gray-250 hover:bg-blue-50 dark:hover:bg-blue-900 transition",
+        ghost: "bg-transparent hover:bg-blue-50 dark:hover:bg-blue-900 text-black-700 dark:text-black-100",
       },
       size: {
         default: "h-10 px-4 py-2",

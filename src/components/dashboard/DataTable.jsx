@@ -64,33 +64,43 @@ export default function DataTable({ data, title, description, loading }) {
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b">
-                  {["page","views","bounce","duration"].map(field => (
-                    <th
-                      key={field}
-                      className="text-left p-3 cursor-pointer hover:bg-blue-50 dark:hover:bg-blue-950 transition rounded"
-                      onClick={() => handleSort(field)}
-                    >
-                      <div className="flex items-center gap-2 font-semibold text-sm capitalize">
-                        {field}
-                        {sortField !== field ? <ChevronDown className="w-4 h-4 opacity-50" /> : (sortDirection === "asc" ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />)}
-                      </div>
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {loading ?
-                  Array.from({length:itemsPerPage}).map((_,i) => (
-                    <tr key={i}>
-                      {["a","b","c","d"].map((_,ii) => <td key={ii}><Skeleton className="h-6 w-20 mt-1 mb-1" /></td>)}
-                    </tr>
-                  )) : 
-                  paginatedData.map((item, idx) => (
-                    <motion.tr key={idx}
-                      animate={{ opacity: 1, x: 0 }} initial={{ opacity: 0, x: 24 }} transition={{ delay: idx * .07 }}
-                      className="border-b hover:bg-blue-50 dark:hover:bg-blue-950/20 transition-colors"
-                    >
+  <tr>
+    {["page","views","bounce","duration"].map(field => (
+      <th
+        key={field}
+        className="text-left p-3 cursor-pointer data-table-header-cell"
+        onClick={() => handleSort(field)}
+        style={{ fontWeight: 600, fontSize: "15px" }}
+      >
+        <div className="flex items-center gap-2 capitalize">
+          {field}
+          {sortField !== field 
+            ? <ChevronDown className="w-4 h-4 opacity-50" />
+            : (sortDirection === "asc"
+              ? <ChevronUp className="w-4 h-4" />
+              : <ChevronDown className="w-4 h-4" />)}
+        </div>
+      </th>
+    ))}
+  </tr>
+</thead>
+<tbody>
+  {loading
+    ? Array.from({ length: itemsPerPage }).map((_, i) => (
+        <tr key={i}>
+          {["a", "b", "c", "d"].map((_, ii) => (
+            <td key={ii}><Skeleton className="h-6 w-20 mt-1 mb-1" /></td>
+          ))}
+        </tr>
+      ))
+    : paginatedData.map((item, idx) => (
+        <motion.tr 
+          key={idx}
+          animate={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, x: 24 }}
+          transition={{ delay: idx * .07 }}
+          className="border-b has-hover"
+        >
                       <td className="p-3 font-mono">{item.page}</td>
                       <td className="p-3">{item.views.toLocaleString()}</td>
                       <td className="p-3">
@@ -107,10 +117,10 @@ export default function DataTable({ data, title, description, loading }) {
             </table>
           </div>
           <div className="flex items-center justify-between mt-5">
-            <p className="text-xs text-gray-400">
-              Showing {((currentPage - 1) * itemsPerPage) + 1}
-              {" "}to {Math.min(currentPage * itemsPerPage, sortedData.length)} of {sortedData.length} results
-            </p>
+            <p className="footer-muted text-xs">
+  Showing {((currentPage - 1) * itemsPerPage) + 1} to {Math.min(currentPage * itemsPerPage, sortedData.length)} of {sortedData.length} results
+</p>
+
             <div className="flex gap-2">
               <Button variant="outline" size="sm" onClick={() => setCurrentPage(p => Math.max(p - 1, 1))} disabled={currentPage === 1}>Previous</Button>
               <Button variant="outline" size="sm" onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages))} disabled={currentPage === totalPages}>Next</Button>

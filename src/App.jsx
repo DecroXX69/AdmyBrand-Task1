@@ -12,7 +12,7 @@ import { mockAnalyticsData, topPagesData, trafficSourcesData, getMetricsData } f
 import { DollarSign, Users, TrendingUp, BarChart3, Sparkles, RefreshCw, Download, Calendar, Bell, Star, Activity } from "lucide-react"
 import { motion } from "framer-motion"
 import toast, { Toaster } from "react-hot-toast"
-
+import Papa from "papaparse"
 export default function App() {
   const [metricsData, setMetricsData] = useState(getMetricsData())
   const [loading, setLoading] = useState(true)
@@ -33,6 +33,17 @@ export default function App() {
     return () => clearInterval(id)
   }, [])
 
+
+  function exportNavbarCSV() {
+  const csv = Papa.unparse(topPagesData);
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.setAttribute("download", "top-pages.csv");
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
   const handleRefresh = useCallback(() => {
     setLoading(true)
     toast.loading("Refreshing...", { id: "refresh" })
@@ -66,13 +77,13 @@ export default function App() {
             </div>
           </div>
          <div className="flex items-center gap-2">
-  <Button size="sm" variant="outline" onClick={handleRefresh} style={{ minWidth: 88 }}>
-    <RefreshCw className={`w-4 h-4 mr-2`} />
-    <span className="font-medium">Refresh</span>
+  <Button size="sm" variant="outline" onClick={handleRefresh} style={{ minWidth: 90 }}>
+    <RefreshCw className="w-4 h-4 mr-2" />
+    <span>Refresh</span>
   </Button>
-  <Button size="sm" variant="outline">
+  <Button size="sm" variant="outline" onClick={exportNavbarCSV}>
     <Download className="w-4 h-4 mr-2" />
-    <span className="font-medium">Export</span>
+    <span>Export</span>
   </Button>
   <Button size="sm" variant="outline" className="relative">
     <Bell className="w-4 h-4" />
@@ -83,6 +94,7 @@ export default function App() {
   </Button>
   <ThemeToggle />
 </div>
+
         </div>
       </motion.header>
       {/* Main */}
