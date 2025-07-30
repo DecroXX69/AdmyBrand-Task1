@@ -1,6 +1,6 @@
 # 🚀 ADmyBRAND AI-Powered Analytics Dashboard
 
-![Dashboard Screenshot](./dashboard.png) <!-- Add screenshot here if available -->
+![Dashboard Screenshot](./public/dashboard.png) <!-- Add screenshot here if available -->
 
 ---
 
