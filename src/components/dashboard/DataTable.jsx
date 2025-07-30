@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/Card"
 import { Button } from "@/components/ui/Button"
-import { Input } from "@/components/ui/input"
+import { Input } from "@/components/ui/Input"
 import { ChevronDown, ChevronUp, Search, Download, FileText } from "lucide-react"
 import { motion } from "framer-motion"
 import Skeleton from "../ui/skeleton"
