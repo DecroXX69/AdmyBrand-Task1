@@ -1,42 +1,67 @@
-import { format, subDays, startOfMonth, endOfMonth, eachDayOfInterval } from 'date-fns'
+import { format, subDays, eachDayOfInterval } from 'date-fns'
 
-// Generate realistic mock data
+// Generate realistic mock data with more variation
 export const generateMockData = () => {
   const now = new Date()
   const startDate = subDays(now, 30)
   const days = eachDayOfInterval({ start: startDate, end: now })
+  
+  // Add more randomness for visible changes
+  const baseRevenue = 15000 + Math.floor(Math.random() * 20000)
+  const baseUsers = 800 + Math.floor(Math.random() * 1500)
+  const baseConversions = 80 + Math.floor(Math.random() * 200)
+  const baseSessions = 1500 + Math.floor(Math.random() * 3000)
 
   return days.map((date, index) => ({
     date: format(date, 'yyyy-MM-dd'),
-    revenue: Math.floor(Math.random() * 50000) + 20000 + (index * 500),
-    users: Math.floor(Math.random() * 5000) + 1000 + (index * 50),
-    conversions: Math.floor(Math.random() * 500) + 100 + (index * 5),
-    sessions: Math.floor(Math.random() * 10000) + 2000 + (index * 100),
-    bounceRate: Math.random() * 30 + 20,
-    avgSessionDuration: Math.random() * 300 + 120,
+    revenue: baseRevenue + Math.floor(Math.random() * 25000) + (index * (300 + Math.random() * 400)),
+    users: baseUsers + Math.floor(Math.random() * 2800) + (index * (15 + Math.random() * 35)),
+    conversions: baseConversions + Math.floor(Math.random() * 180) + (index * (2 + Math.random() * 8)),
+    sessions: baseSessions + Math.floor(Math.random() * 4500) + (index * (25 + Math.random() * 75)),
+    bounceRate: 15 + Math.random() * 35,
+    avgSessionDuration: 90 + Math.random() * 240,
   }))
 }
 
-export const mockAnalyticsData = generateMockData()
+// Generate dynamic mock data function instead of static export
+export const getMockAnalyticsData = () => generateMockData()
 
-export const topPagesData = [
-  { page: '/dashboard', views: 45230, bounce: 23.4, duration: '3:45' },
-  { page: '/analytics', views: 38902, bounce: 18.2, duration: '4:12' },
-  { page: '/campaigns', views: 29384, bounce: 31.6, duration: '2:58' },
-  { page: '/reports', views: 21039, bounce: 28.9, duration: '3:21' },
-  { page: '/settings', views: 15492, bounce: 45.2, duration: '1:34' },
-  { page: '/integrations', views: 12847, bounce: 35.7, duration: '2:45' },
-  { page: '/team', views: 9384, bounce: 41.3, duration: '1:58' },
-  { page: '/billing', views: 7293, bounce: 52.1, duration: '1:12' },
-]
+// Generate dynamic top pages data with variations
+export const generateTopPagesData = () => {
+  const basePages = [
+    { page: '/dashboard', baseViews: 42000, baseBounce: 20, baseDuration: '3:30' },
+    { page: '/analytics', baseViews: 35000, baseBounce: 15, baseDuration: '4:00' },
+    { page: '/campaigns', baseViews: 28000, baseBounce: 28, baseDuration: '2:45' },
+    { page: '/reports', baseViews: 19000, baseBounce: 25, baseDuration: '3:10' },
+    { page: '/settings', baseViews: 14000, baseBounce: 42, baseDuration: '1:25' },
+    { page: '/integrations', baseViews: 11500, baseBounce: 32, baseDuration: '2:35' },
+    { page: '/team', baseViews: 8500, baseBounce: 38, baseDuration: '1:50' },
+    { page: '/billing', baseViews: 6800, baseBounce: 48, baseDuration: '1:05' },
+  ]
 
-export const trafficSourcesData = [
-  { name: 'Organic Search', value: 45.2, color: '#3b82f6' },
-  { name: 'Direct', value: 28.7, color: '#8b5cf6' },
-  { name: 'Social Media', value: 15.3, color: '#10b981' },
-  { name: 'Email', value: 8.1, color: '#f59e0b' },
-  { name: 'Referral', value: 2.7, color: '#ef4444' },
-]
+  return basePages.map(item => ({
+    page: item.page,
+    views: item.baseViews + Math.floor(Math.random() * 8000) - 4000,
+    bounce: Math.max(5, item.baseBounce + (Math.random() - 0.5) * 15),
+    duration: item.baseDuration // You could randomize this too if needed
+  }))
+}
+
+// Generate dynamic traffic sources with slight variations
+export const generateTrafficSourcesData = () => {
+  const variation = () => Math.random() * 6 - 3 // -3 to +3 variation
+  
+  return [
+    { name: 'Organic Search', value: Math.max(30, 45.2 + variation()), color: '#3b82f6' },
+    { name: 'Direct', value: Math.max(15, 28.7 + variation()), color: '#8b5cf6' },
+    { name: 'Social Media', value: Math.max(8, 15.3 + variation()), color: '#10b981' },
+    { name: 'Email', value: Math.max(3, 8.1 + variation()), color: '#f59e0b' },
+    { name: 'Referral', value: Math.max(1, 2.7 + variation()), color: '#ef4444' },
+  ].map(item => ({
+    ...item,
+    value: parseFloat(item.value.toFixed(1))
+  }))
+}
 
 export const campaignPerformanceData = [
   { campaign: 'Summer Sale 2024', impressions: 2340000, clicks: 89340, ctr: 3.82, cost: 15420, conversions: 1243 },
@@ -46,9 +71,10 @@ export const campaignPerformanceData = [
   { campaign: 'Holiday Special', impressions: 2100000, clicks: 94500, ctr: 4.5, cost: 21340, conversions: 1678 },
 ]
 
-export const getMetricsData = () => {
-  const latestData = mockAnalyticsData[mockAnalyticsData.length - 1]
-  const previousData = mockAnalyticsData[mockAnalyticsData.length - 8] // 7 days ago
+// Updated metrics calculator that takes data as parameter
+export const getMetricsData = (analyticsData) => {
+  const latestData = analyticsData[analyticsData.length - 1]
+  const previousData = analyticsData[analyticsData.length - 8] // 7 days ago
   
   return {
     revenue: {
@@ -68,8 +94,8 @@ export const getMetricsData = () => {
     },
     conversionRate: {
       current: (latestData.conversions / latestData.users * 100),
-      change: 2.4,
-      trend: 'up'
+      change: ((latestData.conversions / latestData.users * 100) - (previousData.conversions / previousData.users * 100)),
+      trend: (latestData.conversions / latestData.users) > (previousData.conversions / previousData.users) ? 'up' : 'down'
     }
   }
 }
