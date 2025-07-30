@@ -33,6 +33,7 @@
     "framer-motion": "^12.23.11",
     "lottie-react": "^2.4.1",
     "lucide-react": "^0.533.0",
+    "papaparse": "^5.5.3",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-hot-toast": "^2.5.2",
