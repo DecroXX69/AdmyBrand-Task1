@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card"
 import { TrendingUp, TrendingDown, Sparkles } from "lucide-react"
 import { formatCurrency, formatNumber, formatPercentage, cn } from "@/lib/utils"
 import { motion } from "framer-motion"
